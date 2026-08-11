@@ -63,6 +63,7 @@
     display:flex;
     flex-direction:column;
     justify-content:flex-end;
+    padding-top:90px;
     background:
       radial-gradient(ellipse 120% 80% at 20% -10%, rgba(185,130,43,0.16), transparent 60%),
       linear-gradient(180deg, var(--ink-navy) 0%, var(--ink-navy-2) 55%, var(--crude) 100%);
@@ -94,7 +95,7 @@
     100%{background-position: 0 0, 400px 0;}
   }
   .hero-illustration{
-    position:absolute; inset:0; z-index:0;
+    position:absolute; left:0; right:0; bottom:0; height:72%; z-index:0;
     opacity:0.9;
     pointer-events:none;
   }
@@ -124,7 +125,7 @@
 
   .hero-inner{
     position:relative; z-index:2;
-    padding:0 5% 0;
+    padding:20px 5% 0;
     max-width:1200px;
   }
   .stamp-eyebrow{
