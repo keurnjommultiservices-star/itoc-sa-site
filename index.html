@@ -1036,9 +1036,38 @@ function formatUpdatedTime(dateStr){
   }catch(e){ return "—"; }
 }
 
+const CACHE_DURATION_MS = 6 * 60 * 60 * 1000; // 6 heures
+
+function getCachedCommodity(functionName){
+  try{
+    const raw = localStorage.getItem(`itoc_price_${functionName}`);
+    if(!raw) return null;
+    const cached = JSON.parse(raw);
+    if(Date.now() - cached.fetchedAt > CACHE_DURATION_MS) return null;
+    return cached;
+  }catch(e){ return null; }
+}
+function setCachedCommodity(functionName, priceNum, date){
+  try{
+    localStorage.setItem(`itoc_price_${functionName}`, JSON.stringify({
+      priceNum, date, fetchedAt: Date.now()
+    }));
+  }catch(e){ /* stockage indisponible, on continue sans cache */ }
+}
+
 async function fetchCommodity(functionName, targetValueId, targetUpdatedId){
   const valueEl = document.getElementById(targetValueId);
   const updatedEl = document.getElementById(targetUpdatedId);
+
+  // 1) Vérifie d'abord le cache local (évite de re-consommer le quota API
+  //    à chaque visite — les cours ne sont redemandés qu'après 6h)
+  const cached = getCachedCommodity(functionName);
+  if(cached){
+    valueEl.innerHTML = `$${cached.priceNum.toFixed(2)}<span class="unit">/baril</span>`;
+    updatedEl.textContent = `Clôture du ${formatUpdatedTime(cached.date)} (mis en cache)`;
+    return true;
+  }
+
   try{
     if(!ALPHAVANTAGE_KEY || ALPHAVANTAGE_KEY === "VOTRE_CLE_ALPHAVANTAGE"){
       throw new Error("no-key");
@@ -1054,10 +1083,11 @@ async function fetchCommodity(functionName, targetValueId, targetUpdatedId){
     if(isNaN(priceNum)) throw new Error("bad-value");
     valueEl.innerHTML = `$${priceNum.toFixed(2)}<span class="unit">/baril</span>`;
     updatedEl.textContent = `Clôture du ${formatUpdatedTime(latest.date)}`;
+    setCachedCommodity(functionName, priceNum, latest.date);
     return true;
   }catch(err){
     valueEl.innerHTML = `<span style="font-size:15px; color:rgba(237,231,217,0.5); font-family:'IBM Plex Mono',monospace;">Indisponible</span>`;
-    updatedEl.textContent = ALPHAVANTAGE_KEY === "VOTRE_CLE_ALPHAVANTAGE" ? "Clé API non configurée" : "Réessai en cours…";
+    updatedEl.textContent = ALPHAVANTAGE_KEY === "VOTRE_CLE_ALPHAVANTAGE" ? "Clé API non configurée" : "Quota API atteint — réessai plus tard";
     return false;
   }
 }
@@ -1112,7 +1142,7 @@ async function loadNews(){
 loadMarkets();
 loadNews();
 // Rafraîchissement automatique toutes les 15 minutes pour les visiteurs qui restent sur la page
-setInterval(loadMarkets, 15 * 60 * 1000);
+setInterval(loadMarkets, 60 * 60 * 1000); // toutes les heures (le cache de 6h évite les appels inutiles)
 setInterval(loadNews, 15 * 60 * 1000);
 </script>
 </body>
