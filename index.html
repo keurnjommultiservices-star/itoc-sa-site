@@ -79,11 +79,11 @@
   }
   .horizon{
     position:absolute; left:0; right:0; bottom:38%;
-    height:1px;
+    height:1px; z-index:1;
     background:linear-gradient(90deg, transparent, rgba(217,167,72,0.4), transparent);
   }
   .swell{
-    position:absolute; left:-10%; right:-10%; bottom:0; height:60%;
+    position:absolute; left:-10%; right:-10%; bottom:0; height:60%; z-index:1;
     background:
       linear-gradient(180deg, transparent 0%, rgba(11,30,45,0.0) 20%, rgba(11,30,45,0.9) 100%),
       repeating-radial-gradient(ellipse at 50% 120%, rgba(201,218,214,0.05) 0px, rgba(201,218,214,0.05) 2px, transparent 3px, transparent 40px);
@@ -93,21 +93,61 @@
     0%{background-position: 0 0, 0 0;}
     100%{background-position: 0 0, 400px 0;}
   }
+  .hero-illustration{
+    position:absolute; inset:0; z-index:0;
+    opacity:0.9;
+    pointer-events:none;
+  }
+  .hero-illustration .tanker{
+    animation: sail 60s linear infinite;
+  }
+  @keyframes sail{
+    0%{transform:translateX(0);}
+    50%{transform:translateX(18px);}
+    100%{transform:translateX(0);}
+  }
+  .hero-illustration .flare{
+    animation: flicker 3.4s ease-in-out infinite;
+    transform-origin:bottom center;
+  }
+  @keyframes flicker{
+    0%,100%{opacity:0.55; transform:scaleY(1);}
+    50%{opacity:0.9; transform:scaleY(1.12);}
+  }
+  .hero-illustration .pulse-line{
+    stroke-dasharray:6 8;
+    animation: flow 6s linear infinite;
+  }
+  @keyframes flow{
+    to{stroke-dashoffset:-140;}
+  }
+
   .hero-inner{
     position:relative; z-index:2;
     padding:0 5% 0;
     max-width:1200px;
   }
   .stamp-eyebrow{
-    display:inline-flex; align-items:center; gap:10px;
+    display:inline-flex; flex-direction:column; align-items:flex-start; gap:2px;
     font-family:'IBM Plex Mono', monospace;
     font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
     color:var(--brass-light);
     border:1px solid rgba(217,167,72,0.5);
-    padding:6px 12px;
+    padding:10px 16px;
     margin-bottom:28px;
   }
-  .stamp-eyebrow::before{content:"●"; font-size:8px;}
+  .stamp-eyebrow .eyebrow-main{
+    font-family:'Spectral', serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:0.06em;
+    color:var(--paper);
+  }
+  .stamp-eyebrow .eyebrow-sub{
+    font-size:11px;
+    letter-spacing:0.14em;
+    color:var(--brass-light);
+  }
   h1.headline{
     font-family:'Spectral', serif;
     font-weight:600;
@@ -495,16 +535,85 @@
 </nav>
 
 <header class="hero">
+  <svg class="hero-illustration" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Horizon glow -->
+    <ellipse cx="1000" cy="430" rx="700" ry="180" fill="url(#glow)" opacity="0.5"/>
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#D9A748" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#D9A748" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <!-- Oil tanker silhouette, sitting on the horizon line -->
+    <g class="tanker" transform="translate(760,330)" opacity="0.85">
+      <!-- hull -->
+      <path d="M0,60 L20,60 L40,80 L340,80 L365,60 L385,60 L385,66 L360,92 L20,92 L0,70 Z" fill="#0B1E2D" stroke="#D9A748" stroke-width="1.2"/>
+      <!-- deck line -->
+      <line x1="20" y1="60" x2="365" y2="60" stroke="#D9A748" stroke-width="1"/>
+      <!-- superstructure -->
+      <rect x="270" y="20" width="60" height="40" fill="#0B1E2D" stroke="#D9A748" stroke-width="1.2"/>
+      <rect x="280" y="6" width="20" height="16" fill="#0B1E2D" stroke="#D9A748" stroke-width="1"/>
+      <!-- funnel -->
+      <rect x="310" y="0" width="8" height="20" fill="#B9822B"/>
+      <!-- cargo manifold domes -->
+      <circle cx="90" cy="55" r="6" fill="none" stroke="#D9A748" stroke-width="1"/>
+      <circle cx="140" cy="55" r="6" fill="none" stroke="#D9A748" stroke-width="1"/>
+      <circle cx="190" cy="55" r="6" fill="none" stroke="#D9A748" stroke-width="1"/>
+      <circle cx="240" cy="55" r="6" fill="none" stroke="#D9A748" stroke-width="1"/>
+      <!-- waterline reflection -->
+      <line x1="0" y1="94" x2="385" y2="94" stroke="#D9A748" stroke-width="0.6" opacity="0.4"/>
+    </g>
+
+    <!-- Distant second vessel, smaller / fainter -->
+    <g transform="translate(280,360) scale(0.55)" opacity="0.35">
+      <path d="M0,60 L20,60 L40,80 L340,80 L365,60 L385,60 L385,66 L360,92 L20,92 L0,70 Z" fill="#0B1E2D" stroke="#D9A748" stroke-width="1.5"/>
+      <rect x="270" y="20" width="60" height="40" fill="#0B1E2D" stroke="#D9A748" stroke-width="1.5"/>
+    </g>
+
+    <!-- Flare stack, foreground left -->
+    <g transform="translate(90,560)">
+      <line x1="0" y1="0" x2="0" y2="220" stroke="#B9822B" stroke-width="3"/>
+      <line x1="0" y1="60" x2="-24" y2="60" stroke="#B9822B" stroke-width="2"/>
+      <path class="flare" d="M0,0 C -10,-22 10,-30 0,-52 C -8,-34 8,-28 0,0 Z" fill="#D9A748" opacity="0.7"/>
+    </g>
+
+    <!-- Refinery / pipeline structure, foreground -->
+    <g transform="translate(0,620)" stroke="#B9822B" stroke-width="2.5" fill="none" opacity="0.75">
+      <line x1="0" y1="60" x2="1400" y2="60"/>
+      <line class="pulse-line" x1="0" y1="60" x2="1400" y2="60" stroke="#D9A748" stroke-width="1.4"/>
+      <line x1="60" y1="60" x2="60" y2="10"/>
+      <line x1="60" y1="10" x2="180" y2="10"/>
+      <line x1="180" y1="10" x2="180" y2="60"/>
+      <circle cx="60" cy="35" r="9" fill="#0B1E2D" stroke="#D9A748"/>
+      <line x1="330" y1="60" x2="330" y2="-10"/>
+      <rect x="300" y="-70" width="60" height="60" fill="#0B1E2D" stroke="#B9822B"/>
+      <line x1="480" y1="60" x2="480" y2="20"/>
+      <line x1="480" y1="20" x2="560" y2="20"/>
+      <circle cx="560" cy="20" r="7" fill="#0B1E2D" stroke="#D9A748"/>
+      <line x1="640" y1="60" x2="640" y2="0"/>
+      <rect x="615" y="-40" width="50" height="40" fill="#0B1E2D" stroke="#B9822B"/>
+      <line x1="820" y1="60" x2="820" y2="15"/>
+      <circle cx="820" cy="15" r="10" fill="none"/>
+      <line x1="960" y1="60" x2="960" y2="-30"/>
+      <rect x="935" y="-90" width="50" height="60" fill="#0B1E2D" stroke="#B9822B"/>
+      <line x1="1120" y1="60" x2="1120" y2="10"/>
+      <circle cx="1120" cy="10" r="8" fill="#0B1E2D" stroke="#D9A748"/>
+    </g>
+  </svg>
   <div class="swell"></div>
   <div class="horizon"></div>
   <div class="hero-inner">
-    <div class="stamp-eyebrow">International Trading Oil &amp; Commodities Corp.</div>
-    <h1 class="headline">Le négoce du pétrole,<br><em>d'Afrique au Moyen-Orient.</em></h1>
-    <p class="hero-sub">Depuis 1987, ITOC SA négocie pétrole brut et produits pétroliers raffinés entre les bassins de production d'Afrique et du Moyen-Orient et les marchés qui en ont besoin — avec la rigueur d'une maison de trading établie à Dakar.</p>
+    <div class="stamp-eyebrow">
+      <span class="eyebrow-main" data-key="hero.eyebrow_main">ITOC</span>
+      <span class="eyebrow-sub" data-key="hero.eyebrow_sub">SA : International Trading Oil &amp; Commodities Corp.</span>
+    </div>
+    <h1 class="headline"><span data-key="hero.headline_pre">Le négoce du pétrole,</span><br><em data-key="hero.headline_em">d'Afrique au Moyen-Orient.</em></h1>
+    <p class="hero-sub" data-key="hero.subtitle">Depuis 1987, ITOC SA négocie pétrole brut et produits pétroliers raffinés entre les bassins de production d'Afrique et du Moyen-Orient et les marchés qui en ont besoin — avec la rigueur d'une maison de trading établie à Dakar.</p>
     <div class="hero-meta">
-      <div><div class="num">1987</div><div class="lbl">Fondation</div></div>
-      <div><div class="num">7+</div><div class="lbl">Familles de produits</div></div>
-      <div><div class="num">Dakar</div><div class="lbl">Siège, Sénégal</div></div>
+      <div><div class="num" data-key="hero.meta1_num">1987</div><div class="lbl" data-key="hero.meta1_lbl">Fondation</div></div>
+      <div><div class="num" data-key="hero.meta2_num">7+</div><div class="lbl" data-key="hero.meta2_lbl">Familles de produits</div></div>
+      <div><div class="num" data-key="hero.meta3_num">Dakar</div><div class="lbl" data-key="hero.meta3_lbl">Siège, Sénégal</div></div>
     </div>
   </div>
   <div class="ticker-wrap">
@@ -533,59 +642,59 @@
 
 <section class="products" id="produits">
   <div class="section-head">
-    <span class="eyebrow">Manifeste — Produits négociés</span>
-    <h2 class="section-title">Une gamme complète de produits pétroliers et agricoles.</h2>
-    <p class="section-desc">ITOC SA couvre l'ensemble de la chaîne, du brut aux produits raffinés, jusqu'au négoce de céréales.</p>
+    <span class="eyebrow" data-key="produits.eyebrow">Manifeste — Produits négociés</span>
+    <h2 class="section-title" data-key="produits.title">Une gamme complète de produits pétroliers et agricoles.</h2>
+    <p class="section-desc" data-key="produits.desc">ITOC SA couvre l'ensemble de la chaîne, du brut aux produits raffinés, jusqu'au négoce de céréales.</p>
   </div>
 
-  <div class="manifest-grid">
+  <div class="manifest-grid" id="manifest-grid">
     <div class="manifest-row">
       <span class="code">01</span>
-      <span class="name">Pétrole brut</span>
-      <span class="desc">Bruts produits en Afrique et au Moyen-Orient.</span>
-      <span class="tag">Crude</span>
+      <span class="name" data-key="produits.items.0.name">Pétrole brut</span>
+      <span class="desc" data-key="produits.items.0.desc">Bruts produits en Afrique et au Moyen-Orient.</span>
+      <span class="tag" data-key="produits.items.0.tag">Crude</span>
     </div>
     <div class="manifest-row">
       <span class="code">02</span>
-      <span class="name">Butane</span>
-      <span class="desc">Gaz de pétrole liquéfié pour usage domestique et industriel.</span>
-      <span class="tag">GPL</span>
+      <span class="name" data-key="produits.items.1.name">Butane</span>
+      <span class="desc" data-key="produits.items.1.desc">Gaz de pétrole liquéfié pour usage domestique et industriel.</span>
+      <span class="tag" data-key="produits.items.1.tag">GPL</span>
     </div>
     <div class="manifest-row">
       <span class="code">03</span>
-      <span class="name">Naphta</span>
-      <span class="desc">Charge pour l'industrie pétrochimique.</span>
-      <span class="tag">Feedstock</span>
+      <span class="name" data-key="produits.items.2.name">Naphta</span>
+      <span class="desc" data-key="produits.items.2.desc">Charge pour l'industrie pétrochimique.</span>
+      <span class="tag" data-key="produits.items.2.tag">Feedstock</span>
     </div>
     <div class="manifest-row">
       <span class="code">04</span>
-      <span class="name">Carburants automobiles</span>
-      <span class="desc">Supercarburant, essence ordinaire, gasoil.</span>
-      <span class="tag">Fuels</span>
+      <span class="name" data-key="produits.items.3.name">Carburants automobiles</span>
+      <span class="desc" data-key="produits.items.3.desc">Supercarburant, essence ordinaire, gasoil.</span>
+      <span class="tag" data-key="produits.items.3.tag">Fuels</span>
     </div>
     <div class="manifest-row">
       <span class="code">05</span>
-      <span class="name">Carburéacteur Jet A-1</span>
-      <span class="desc">Carburant d'aviation destiné aux compagnies aériennes.</span>
-      <span class="tag">Aviation</span>
+      <span class="name" data-key="produits.items.4.name">Carburéacteur Jet A-1</span>
+      <span class="desc" data-key="produits.items.4.desc">Carburant d'aviation destiné aux compagnies aériennes.</span>
+      <span class="tag" data-key="produits.items.4.tag">Aviation</span>
     </div>
     <div class="manifest-row">
       <span class="code">06</span>
-      <span class="name">Kérosène</span>
-      <span class="desc">Pétrole lampant.</span>
-      <span class="tag">Middle dist.</span>
+      <span class="name" data-key="produits.items.5.name">Kérosène</span>
+      <span class="desc" data-key="produits.items.5.desc">Pétrole lampant.</span>
+      <span class="tag" data-key="produits.items.5.tag">Middle dist.</span>
     </div>
     <div class="manifest-row">
       <span class="code">07</span>
-      <span class="name">Combustibles</span>
-      <span class="desc">Diesel oil, fuel oil BTS et fuel oil HTS.</span>
-      <span class="tag">Fuel oil</span>
+      <span class="name" data-key="produits.items.6.name">Combustibles</span>
+      <span class="desc" data-key="produits.items.6.desc">Diesel oil, fuel oil BTS et fuel oil HTS.</span>
+      <span class="tag" data-key="produits.items.6.tag">Fuel oil</span>
     </div>
     <div class="manifest-row">
       <span class="code">08</span>
-      <span class="name">Céréales</span>
-      <span class="desc">Négoce agricole complémentaire à l'activité pétrolière.</span>
-      <span class="tag">Grains</span>
+      <span class="name" data-key="produits.items.7.name">Céréales</span>
+      <span class="desc" data-key="produits.items.7.desc">Négoce agricole complémentaire à l'activité pétrolière.</span>
+      <span class="tag" data-key="produits.items.7.tag">Grains</span>
     </div>
   </div>
 </section>
@@ -632,112 +741,112 @@
 
 <section class="company" id="historique">
   <div class="section-head">
-    <span class="eyebrow">Historique</span>
-    <h2 class="section-title">Près de quatre décennies de négoce pétrolier.</h2>
-    <p class="section-desc">International Trading Oil and Commodities Corporation (ITOC SA) est fondée à Dakar en 1987. L'entreprise s'impose au fil des décennies comme l'un des principaux acteurs de l'importation et de la distribution de produits pétroliers au Sénégal.</p>
+    <span class="eyebrow" data-key="historique.eyebrow">Historique</span>
+    <h2 class="section-title" data-key="historique.title">Près de quatre décennies de négoce pétrolier.</h2>
+    <p class="section-desc" data-key="historique.desc">International Trading Oil and Commodities Corporation (ITOC SA) est fondée à Dakar en 1987. L'entreprise s'impose au fil des décennies comme l'un des principaux acteurs de l'importation et de la distribution de produits pétroliers au Sénégal.</p>
   </div>
   <div class="timeline">
     <div class="cell">
-      <span class="year">1987</span>
-      <h3>Fondation</h3>
-      <p>Création d'ITOC SA par Abdoulaye « Baba » Diao, ingénieur formé à l'École Centrale de Lille et à l'Institut Français du Pétrole (ENSPM).</p>
+      <span class="year" data-key="historique.cells.0.year">1987</span>
+      <h3 data-key="historique.cells.0.title">Fondation</h3>
+      <p data-key="historique.cells.0.text">Création d'ITOC SA par Abdoulaye « Baba » Diao, ingénieur formé à l'École Centrale de Lille et à l'Institut Français du Pétrole (ENSPM).</p>
     </div>
     <div class="cell">
-      <span class="year">1987 – 2024</span>
-      <h3>Un acteur majeur du secteur</h3>
-      <p>Sous la direction de son fondateur, ITOC devient l'un des principaux fournisseurs de gaz et d'hydrocarbures du Sénégal, avec une gamme élargie du brut aux produits raffinés et aux céréales.</p>
+      <span class="year" data-key="historique.cells.1.year">1987 – 2024</span>
+      <h3 data-key="historique.cells.1.title">Un acteur majeur du secteur</h3>
+      <p data-key="historique.cells.1.text">Sous la direction de son fondateur, ITOC devient l'un des principaux fournisseurs de gaz et d'hydrocarbures du Sénégal, avec une gamme élargie du brut aux produits raffinés et aux céréales.</p>
     </div>
     <div class="cell">
-      <span class="year">Juillet 2024</span>
-      <h3>Disparition du fondateur</h3>
-      <p>Abdoulaye Diao s'éteint le 3 juillet 2024 à Dakar, à l'âge de 79 ans, après trente-sept ans à la tête de l'entreprise.</p>
+      <span class="year" data-key="historique.cells.2.year">Juillet 2024</span>
+      <h3 data-key="historique.cells.2.title">Disparition du fondateur</h3>
+      <p data-key="historique.cells.2.text">Abdoulaye Diao s'éteint le 3 juillet 2024 à Dakar, à l'âge de 79 ans, après trente-sept ans à la tête de l'entreprise.</p>
     </div>
     <div class="cell">
-      <span class="year">Depuis 2024</span>
-      <h3>Nouvelle gouvernance</h3>
-      <p>La fratrie Diao s'accorde sur une gouvernance renouvelée, confiée à Rougui Diao à la présidence et Sakhir Diouf à la direction générale.</p>
+      <span class="year" data-key="historique.cells.3.year">Depuis 2024</span>
+      <h3 data-key="historique.cells.3.title">Nouvelle gouvernance</h3>
+      <p data-key="historique.cells.3.text">La fratrie Diao s'accorde sur une gouvernance renouvelée, confiée à Rougui Diao à la présidence et Sakhir Diouf à la direction générale.</p>
     </div>
     <div class="cell">
-      <span class="year">Aujourd'hui</span>
-      <h3>Relance de l'activité</h3>
-      <p>ITOC SA poursuit sa réorganisation pour redéployer pleinement son activité de négoce.</p>
+      <span class="year" data-key="historique.cells.4.year">Aujourd'hui</span>
+      <h3 data-key="historique.cells.4.title">Relance de l'activité</h3>
+      <p data-key="historique.cells.4.text">ITOC SA poursuit sa réorganisation pour redéployer pleinement son activité de négoce.</p>
     </div>
     <div class="cell">
-      <span class="year">Sources</span>
-      <h3>Presse économique</h3>
-      <p>Éléments publics rapportés par Jeune Afrique, DakarActu et Sud Quotidien (2024).</p>
+      <span class="year" data-key="historique.cells.5.year">Sources</span>
+      <h3 data-key="historique.cells.5.title">Presse économique</h3>
+      <p data-key="historique.cells.5.text">Éléments publics rapportés par Jeune Afrique, DakarActu et Sud Quotidien (2024).</p>
     </div>
   </div>
 </section>
 
 <section class="filiales" id="filiales">
   <div class="section-head">
-    <span class="eyebrow">Filiales</span>
-    <h2 class="section-title">Rubrique à compléter avec vos informations.</h2>
-    <p class="section-desc">Nous n'avons pas trouvé de liste publique et vérifiée des filiales d'ITOC SA. Pour ne rien avancer d'inexact, cette rubrique est présentée en gabarit — communiquez-nous les noms, activités et pays de vos filiales pour qu'elle soit complétée avec vos données réelles.</p>
+    <span class="eyebrow" data-key="filiales.eyebrow">Filiales</span>
+    <h2 class="section-title" data-key="filiales.title">Rubrique à compléter avec vos informations.</h2>
+    <p class="section-desc" data-key="filiales.desc">Nous n'avons pas trouvé de liste publique et vérifiée des filiales d'ITOC SA. Pour ne rien avancer d'inexact, cette rubrique est présentée en gabarit — communiquez-nous les noms, activités et pays de vos filiales pour qu'elle soit complétée avec vos données réelles.</p>
   </div>
   <div class="filiale-grid">
     <div class="filiale-card placeholder">
-      <span class="mono ph-label">Filiale 01</span>
-      <h3>Nom de la filiale</h3>
-      <p>Activité — pays</p>
+      <span class="mono ph-label" data-key="filiales.items.0.label">Filiale 01</span>
+      <h3 data-key="filiales.items.0.name">Nom de la filiale</h3>
+      <p data-key="filiales.items.0.text">Activité — pays</p>
     </div>
     <div class="filiale-card placeholder">
-      <span class="mono ph-label">Filiale 02</span>
-      <h3>Nom de la filiale</h3>
-      <p>Activité — pays</p>
+      <span class="mono ph-label" data-key="filiales.items.1.label">Filiale 02</span>
+      <h3 data-key="filiales.items.1.name">Nom de la filiale</h3>
+      <p data-key="filiales.items.1.text">Activité — pays</p>
     </div>
     <div class="filiale-card placeholder">
-      <span class="mono ph-label">Filiale 03</span>
-      <h3>Nom de la filiale</h3>
-      <p>Activité — pays</p>
+      <span class="mono ph-label" data-key="filiales.items.2.label">Filiale 03</span>
+      <h3 data-key="filiales.items.2.name">Nom de la filiale</h3>
+      <p data-key="filiales.items.2.text">Activité — pays</p>
     </div>
   </div>
 </section>
 
 <section class="orgchart" id="organigramme">
   <div class="section-head">
-    <span class="eyebrow">Organigramme</span>
-    <h2 class="section-title">Une gouvernance renouvelée depuis 2024.</h2>
-    <p class="section-desc">Après la disparition du fondateur en juillet 2024, la fratrie Diao s'est accordée sur une nouvelle organisation de la direction, rapportée par la presse économique sénégalaise.</p>
+    <span class="eyebrow" data-key="organigramme.eyebrow">Organigramme</span>
+    <h2 class="section-title" data-key="organigramme.title">Une gouvernance renouvelée depuis 2024.</h2>
+    <p class="section-desc" data-key="organigramme.desc">Après la disparition du fondateur en juillet 2024, la fratrie Diao s'est accordée sur une nouvelle organisation de la direction, rapportée par la presse économique sénégalaise.</p>
   </div>
   <div class="org-tree">
     <div class="org-node root">
-      <span class="org-role mono">Conseil d'administration</span>
-      <h3>Rougui Diao</h3>
-      <p>Présidente du Conseil d'administration</p>
+      <span class="org-role mono" data-key="organigramme.root.role">Conseil d'administration</span>
+      <h3 data-key="organigramme.root.name">Rougui Diao</h3>
+      <p data-key="organigramme.root.text">Présidente du Conseil d'administration</p>
     </div>
     <div class="org-connector"></div>
     <div class="org-row">
       <div class="org-node">
-        <span class="org-role mono">Direction générale</span>
-        <h3>Sakhir Diouf</h3>
-        <p>Directeur général — près de trente ans au sein de l'entreprise, ancien bras droit du fondateur.</p>
+        <span class="org-role mono" data-key="organigramme.nodes.0.role">Direction générale</span>
+        <h3 data-key="organigramme.nodes.0.name">Sakhir Diouf</h3>
+        <p data-key="organigramme.nodes.0.text">Directeur général — près de trente ans au sein de l'entreprise, ancien bras droit du fondateur.</p>
       </div>
       <div class="org-node">
-        <span class="org-role mono">Stratégie</span>
-        <h3>Moussa Diao</h3>
-        <p>Fils aîné du fondateur, apporte la stratégie du groupe depuis Genève.</p>
+        <span class="org-role mono" data-key="organigramme.nodes.1.role">Stratégie</span>
+        <h3 data-key="organigramme.nodes.1.name">Moussa Diao</h3>
+        <p data-key="organigramme.nodes.1.text">Fils aîné du fondateur, apporte la stratégie du groupe depuis Genève.</p>
       </div>
     </div>
-    <div class="org-note mono">Gouvernance issue de l'accord conclu entre les cinq héritiers d'Abdoulaye « Baba » Diao — source : presse économique, 2024.</div>
+    <div class="org-note mono" data-key="organigramme.note">Gouvernance issue de l'accord conclu entre les cinq héritiers d'Abdoulaye « Baba » Diao — source : presse économique, 2024.</div>
   </div>
 </section>
 
 <section class="contact" id="contact">
   <div class="contact-grid">
     <div>
-      <span class="eyebrow" style="color:var(--brass-light)">Contact</span>
-      <h2 class="section-title">Nous contacter</h2>
+      <span class="eyebrow" style="color:var(--brass-light)" data-key="contact.eyebrow">Contact</span>
+      <h2 class="section-title" data-key="contact.title">Nous contacter</h2>
       <div class="contact-lines">
-        <div class="contact-line"><span class="k">E-mail</span><span class="v">itoc@orange.sn</span></div>
-        <div class="contact-line"><span class="k">Téléphone</span><span class="v">+221 33 821 02 99</span></div>
-        <div class="contact-line"><span class="k">Siège</span><span class="v">Dakar, Sénégal</span></div>
+        <div class="contact-line"><span class="k">E-mail</span><span class="v" data-key="contact.email">itoc@orange.sn</span></div>
+        <div class="contact-line"><span class="k">Téléphone</span><span class="v" data-key="contact.phone">+221 33 821 02 99</span></div>
+        <div class="contact-line"><span class="k">Siège</span><span class="v" data-key="contact.siege">Dakar, Sénégal</span></div>
       </div>
     </div>
     <div class="contact-card">
-      <div class="stamp-eyebrow">Négoce international</div>
-      <p>ITOC SA, International Trading Oil and Commodities Corporation, société de négoce de pétroles bruts produits en Afrique et au Moyen-Orient, de produits pétroliers et de céréales.</p>
+      <div class="stamp-eyebrow" data-key="contact.card_eyebrow">Négoce international</div>
+      <p data-key="contact.card_text">ITOC SA, International Trading Oil and Commodities Corporation, société de négoce de pétroles bruts produits en Afrique et au Moyen-Orient, de produits pétroliers et de céréales.</p>
     </div>
   </div>
 </section>
@@ -746,6 +855,35 @@
   <span>© 2026 ITOC SA — International Trading Oil and Commodities Corporation</span>
   <span>Dakar, Sénégal</span>
 </footer>
+
+<script>
+/* ============================================================
+   ITOC SA — Chargement du contenu éditable (CMS)
+   ------------------------------------------------------------
+   Tous les textes marqués data-key="section.champ" dans le HTML
+   sont remplacés par les valeurs de content.json au chargement.
+   C'est ce fichier que l'interface d'admin (/admin) modifie et
+   commit sur GitHub — donc visible par tous les visiteurs après
+   redéploiement automatique de Netlify.
+   ============================================================ */
+function getPath(obj, path){
+  return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, obj);
+}
+async function loadContent(){
+  try{
+    const res = await fetch('content.json', {cache:'no-store'});
+    if(!res.ok) return;
+    const data = await res.json();
+    document.querySelectorAll('[data-key]').forEach(el=>{
+      const val = getPath(data, el.getAttribute('data-key'));
+      if(typeof val === 'string'){ el.textContent = val; }
+    });
+  }catch(err){
+    console.warn('content.json non trouvé — affichage du contenu par défaut.', err);
+  }
+}
+loadContent();
+</script>
 
 <script>
 /* ============================================================
