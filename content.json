@@ -40,6 +40,19 @@
       {"year": "Sources", "title": "Presse économique", "text": "Éléments publics rapportés par Jeune Afrique, DakarActu et Sud Quotidien (2024)."}
     ]
   },
+  "portrait": {
+    "eyebrow": "Portrait",
+    "title": "Abdoulaye « Baba » Diao, fondateur d'ITOC SA.",
+    "desc": "Ingénieur devenu l'une des figures les plus discrètes et les plus régulières du secteur pétrolier sénégalais, il a dirigé ITOC SA pendant trente-sept ans.",
+    "caption": "Photo à venir — Thiès, 1945 – Dakar, 2024",
+    "name": "Abdoulaye Diao dit « Baba Diao »",
+    "role": "Fondateur et ancien PDG d'ITOC SA (1987 – 2024)",
+    "p1": "Né à Thiès, Abdoulaye Diao se distingue très tôt comme un élève brillant. Bachelier avec la mention « Très bien », il obtient en 1968 une bourse du Fonds d'aide et de coopération pour les classes préparatoires du lycée Louis-le-Grand, à Paris — repéré au Concours général par le président Léopold Sédar Senghor lui-même.",
+    "p2": "Il devient ensuite ingénieur de l'École Centrale de Lille, puis ingénieur de l'Institut Français du Pétrole (IFP) à Paris, tout en obtenant une licence de sciences physiques et de sciences économiques.",
+    "p3": "De retour au Sénégal à la demande du président Senghor, il est nommé conseiller technique du ministre de l'Énergie et des Hydrocarbures. C'est à ce poste qu'il rédige, au début des années 1970, les premiers statuts de la Société des pétroles du Sénégal (Petrosen) — des textes qui encadrent encore aujourd'hui l'exploration pétrolière du pays.",
+    "p4": "Il quitte ensuite l'administration pour fonder ITOC SA en 1987, qu'il dirige pendant trente-sept ans, en faisant l'un des principaux fournisseurs de pétrole du Sénégal — notamment auprès de la SAR et de la Senelec. Il a par la suite également siégé comme conseiller auprès de la présidence sur les questions énergétiques.",
+    "p5": "Abdoulaye Diao s'éteint à Dakar le 3 juillet 2024, à l'âge de 79 ans, et est inhumé le lendemain à Thiès, sa ville natale."
+  },
   "filiales": {
     "eyebrow": "Filiales",
     "title": "Rubrique à compléter avec vos informations.",
