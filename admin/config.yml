@@ -1,4 +1,3 @@
-
 # Use DecapBridge PKCE auth (required)
 backend:
   name: git-gateway
@@ -9,14 +8,13 @@ backend:
   auth_endpoint: /sites/35ba4df0-293b-4e36-8635-9d289ed24824/pkce
   auth_token_endpoint: /sites/35ba4df0-293b-4e36-8635-9d289ed24824/token
   gateway_url: https://gateway.decapbridge.com
-
   # See who did what (optional)
   commit_messages:
-    create: Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    update: Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    delete: Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    uploadMedia: Upload “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    deleteMedia: Delete “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    create: Create {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    update: Update {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    delete: Delete {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    uploadMedia: Upload "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge
+    deleteMedia: Delete "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge
     openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
 
 # Enable PKCE fields (optional, recommended)
@@ -30,4 +28,111 @@ auth:
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
 
 # Add site links in Decap CMS (optional)
-site_url: https://github.com
+site_url: https://itoc-sa-demo.netlify.app
+
+# Pas de gestion de médias/images pour l'instant (site texte uniquement)
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "site"
+    label: "Contenu du site ITOC SA"
+    files:
+      - name: "contenu"
+        label: "Tout le contenu du site"
+        file: "content.json"
+        fields:
+          - label: "Accueil (Hero)"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Bandeau (eyebrow)", name: "eyebrow", widget: "string"}
+              - {label: "Titre — 1ère ligne", name: "headline_pre", widget: "string"}
+              - {label: "Titre — 2e ligne (italique)", name: "headline_em", widget: "string"}
+              - {label: "Sous-titre", name: "subtitle", widget: "text"}
+              - {label: "Chiffre 1", name: "meta1_num", widget: "string"}
+              - {label: "Légende 1", name: "meta1_lbl", widget: "string"}
+              - {label: "Chiffre 2", name: "meta2_num", widget: "string"}
+              - {label: "Légende 2", name: "meta2_lbl", widget: "string"}
+              - {label: "Chiffre 3", name: "meta3_num", widget: "string"}
+              - {label: "Légende 3", name: "meta3_lbl", widget: "string"}
+
+          - label: "Produits"
+            name: "produits"
+            widget: "object"
+            fields:
+              - {label: "Bandeau", name: "eyebrow", widget: "string"}
+              - {label: "Titre", name: "title", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+              - label: "Liste des produits"
+                name: "items"
+                widget: "list"
+                fields:
+                  - {label: "Nom", name: "name", widget: "string"}
+                  - {label: "Description", name: "desc", widget: "string"}
+                  - {label: "Étiquette", name: "tag", widget: "string"}
+
+          - label: "Historique"
+            name: "historique"
+            widget: "object"
+            fields:
+              - {label: "Bandeau", name: "eyebrow", widget: "string"}
+              - {label: "Titre", name: "title", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+              - label: "Étapes de la chronologie"
+                name: "cells"
+                widget: "list"
+                fields:
+                  - {label: "Année / période", name: "year", widget: "string"}
+                  - {label: "Titre", name: "title", widget: "string"}
+                  - {label: "Texte", name: "text", widget: "text"}
+
+          - label: "Filiales"
+            name: "filiales"
+            widget: "object"
+            fields:
+              - {label: "Bandeau", name: "eyebrow", widget: "string"}
+              - {label: "Titre", name: "title", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+              - label: "Liste des filiales"
+                name: "items"
+                widget: "list"
+                fields:
+                  - {label: "Étiquette (ex: Filiale 01)", name: "label", widget: "string"}
+                  - {label: "Nom de la filiale", name: "name", widget: "string"}
+                  - {label: "Activité — pays", name: "text", widget: "string"}
+
+          - label: "Organigramme"
+            name: "organigramme"
+            widget: "object"
+            fields:
+              - {label: "Bandeau", name: "eyebrow", widget: "string"}
+              - {label: "Titre", name: "title", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+              - label: "Poste racine (ex: Présidente du Conseil)"
+                name: "root"
+                widget: "object"
+                fields:
+                  - {label: "Rôle", name: "role", widget: "string"}
+                  - {label: "Nom", name: "name", widget: "string"}
+                  - {label: "Fonction", name: "text", widget: "string"}
+              - label: "Autres postes"
+                name: "nodes"
+                widget: "list"
+                fields:
+                  - {label: "Rôle", name: "role", widget: "string"}
+                  - {label: "Nom", name: "name", widget: "string"}
+                  - {label: "Fonction", name: "text", widget: "text"}
+              - {label: "Note en bas d'organigramme", name: "note", widget: "text"}
+
+          - label: "Contact"
+            name: "contact"
+            widget: "object"
+            fields:
+              - {label: "Bandeau", name: "eyebrow", widget: "string"}
+              - {label: "Titre", name: "title", widget: "string"}
+              - {label: "E-mail", name: "email", widget: "string"}
+              - {label: "Téléphone", name: "phone", widget: "string"}
+              - {label: "Siège", name: "siege", widget: "string"}
+              - {label: "Bandeau de la carte", name: "card_eyebrow", widget: "string"}
+              - {label: "Texte de la carte", name: "card_text", widget: "text"}
