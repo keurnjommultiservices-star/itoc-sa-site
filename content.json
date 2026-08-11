@@ -1,0 +1,72 @@
+{
+  "hero": {
+    "eyebrow": "ITOC SA : INTERNATIONAL TRADING OIL & COMMODITIES CORP.",
+    "headline_pre": "Le négoce du pétrole,",
+    "headline_em": "d'Afrique au Moyen-Orient.",
+    "subtitle": "Depuis 1987, ITOC SA négocie pétrole brut et produits pétroliers raffinés entre les bassins de production d'Afrique et du Moyen-Orient et les marchés qui en ont besoin — avec la rigueur d'une maison de trading établie à Dakar.",
+    "meta1_num": "1987",
+    "meta1_lbl": "Fondation",
+    "meta2_num": "7+",
+    "meta2_lbl": "Familles de produits",
+    "meta3_num": "Dakar",
+    "meta3_lbl": "Siège, Sénégal"
+  },
+  "produits": {
+    "eyebrow": "Manifeste — Produits négociés",
+    "title": "Une gamme complète de produits pétroliers et agricoles.",
+    "desc": "ITOC SA couvre l'ensemble de la chaîne, du brut aux produits raffinés, jusqu'au négoce de céréales.",
+    "items": [
+      {"name": "Pétrole brut", "desc": "Bruts produits en Afrique et au Moyen-Orient.", "tag": "Crude"},
+      {"name": "Butane", "desc": "Gaz de pétrole liquéfié pour usage domestique et industriel.", "tag": "GPL"},
+      {"name": "Naphta", "desc": "Charge pour l'industrie pétrochimique.", "tag": "Feedstock"},
+      {"name": "Carburants automobiles", "desc": "Supercarburant, essence ordinaire, gasoil.", "tag": "Fuels"},
+      {"name": "Carburéacteur Jet A-1", "desc": "Carburant d'aviation destiné aux compagnies aériennes.", "tag": "Aviation"},
+      {"name": "Kérosène", "desc": "Pétrole lampant.", "tag": "Middle dist."},
+      {"name": "Combustibles", "desc": "Diesel oil, fuel oil BTS et fuel oil HTS.", "tag": "Fuel oil"},
+      {"name": "Céréales", "desc": "Négoce agricole complémentaire à l'activité pétrolière.", "tag": "Grains"}
+    ]
+  },
+  "historique": {
+    "eyebrow": "Historique",
+    "title": "Près de quatre décennies de négoce pétrolier.",
+    "desc": "International Trading Oil and Commodities Corporation (ITOC SA) est fondée à Dakar en 1987. L'entreprise s'impose au fil des décennies comme l'un des principaux acteurs de l'importation et de la distribution de produits pétroliers au Sénégal.",
+    "cells": [
+      {"year": "1987", "title": "Fondation", "text": "Création d'ITOC SA par Abdoulaye « Baba » Diao, ingénieur formé à l'École Centrale de Lille et à l'Institut Français du Pétrole (ENSPM)."},
+      {"year": "1987 – 2024", "title": "Un acteur majeur du secteur", "text": "Sous la direction de son fondateur, ITOC devient l'un des principaux fournisseurs de gaz et d'hydrocarbures du Sénégal, avec une gamme élargie du brut aux produits raffinés et aux céréales."},
+      {"year": "Juillet 2024", "title": "Disparition du fondateur", "text": "Abdoulaye Diao s'éteint le 3 juillet 2024 à Dakar, à l'âge de 79 ans, après trente-sept ans à la tête de l'entreprise."},
+      {"year": "Depuis 2024", "title": "Nouvelle gouvernance", "text": "La fratrie Diao s'accorde sur une gouvernance renouvelée, confiée à Rougui Diao à la présidence et Sakhir Diouf à la direction générale."},
+      {"year": "Aujourd'hui", "title": "Relance de l'activité", "text": "ITOC SA poursuit sa réorganisation pour redéployer pleinement son activité de négoce."},
+      {"year": "Sources", "title": "Presse économique", "text": "Éléments publics rapportés par Jeune Afrique, DakarActu et Sud Quotidien (2024)."}
+    ]
+  },
+  "filiales": {
+    "eyebrow": "Filiales",
+    "title": "Rubrique à compléter avec vos informations.",
+    "desc": "Nous n'avons pas trouvé de liste publique et vérifiée des filiales d'ITOC SA. Pour ne rien avancer d'inexact, cette rubrique est présentée en gabarit — communiquez-nous les noms, activités et pays de vos filiales pour qu'elle soit complétée avec vos données réelles.",
+    "items": [
+      {"label": "Filiale 01", "name": "Nom de la filiale", "text": "Activité — pays"},
+      {"label": "Filiale 02", "name": "Nom de la filiale", "text": "Activité — pays"},
+      {"label": "Filiale 03", "name": "Nom de la filiale", "text": "Activité — pays"}
+    ]
+  },
+  "organigramme": {
+    "eyebrow": "Organigramme",
+    "title": "Une gouvernance renouvelée depuis 2024.",
+    "desc": "Après la disparition du fondateur en juillet 2024, la fratrie Diao s'est accordée sur une nouvelle organisation de la direction, rapportée par la presse économique sénégalaise.",
+    "root": {"role": "Conseil d'administration", "name": "Rougui Diao", "text": "Présidente du Conseil d'administration"},
+    "nodes": [
+      {"role": "Direction générale", "name": "Sakhir Diouf", "text": "Directeur général — près de trente ans au sein de l'entreprise, ancien bras droit du fondateur."},
+      {"role": "Stratégie", "name": "Moussa Diao", "text": "Fils aîné du fondateur, apporte la stratégie du groupe depuis Genève."}
+    ],
+    "note": "Gouvernance issue de l'accord conclu entre les cinq héritiers d'Abdoulaye « Baba » Diao — source : presse économique, 2024."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Nous contacter",
+    "email": "itoc@orange.sn",
+    "phone": "+221 33 821 02 99",
+    "siege": "Dakar, Sénégal",
+    "card_eyebrow": "Négoce international",
+    "card_text": "ITOC SA, International Trading Oil and Commodities Corporation, société de négoce de pétroles bruts produits en Afrique et au Moyen-Orient, de produits pétroliers et de céréales."
+  }
+}
