@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITOC SA — Négoce international de pétrole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-navy: #0B1E2D;
+    --ink-navy-2: #102C42;
+    --crude: #14100C;
+    --paper: #EDE7D9;
+    --paper-2: #E2DAC7;
+    --brass: #B9822B;
+    --brass-light: #D9A748;
+    --rust: #A23E2D;
+    --foam: #C9DAD6;
+    --ink-text: #1B2420;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Public Sans', sans-serif;
+    background:var(--paper);
+    color:var(--ink-text);
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  a{color:inherit; text-decoration:none;}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.04em;}
+  .serif{font-family:'Spectral', serif;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 5%;
+    mix-blend-mode:difference;
+    color:#fff;
+  }
+  .brand{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:0.12em;
+  }
+  .brand span{color:var(--brass-light);}
+  .navlinks{display:flex; gap:36px; font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase;}
+  .navlinks a{opacity:0.85; transition:opacity .2s;}
+  .navlinks a:hover{opacity:1;}
+  @media (max-width:720px){ .navlinks{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    background:
+      radial-gradient(ellipse 120% 80% at 20% -10%, rgba(185,130,43,0.16), transparent 60%),
+      linear-gradient(180deg, var(--ink-navy) 0%, var(--ink-navy-2) 55%, var(--crude) 100%);
+    color:var(--paper);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(180deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 3px);
+    opacity:0.5;
+    pointer-events:none;
+  }
+  .horizon{
+    position:absolute; left:0; right:0; bottom:38%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(217,167,72,0.4), transparent);
+  }
+  .swell{
+    position:absolute; left:-10%; right:-10%; bottom:0; height:60%;
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(11,30,45,0.0) 20%, rgba(11,30,45,0.9) 100%),
+      repeating-radial-gradient(ellipse at 50% 120%, rgba(201,218,214,0.05) 0px, rgba(201,218,214,0.05) 2px, transparent 3px, transparent 40px);
+    animation: drift 22s linear infinite;
+  }
+  @keyframes drift{
+    0%{background-position: 0 0, 0 0;}
+    100%{background-position: 0 0, 400px 0;}
+  }
+  .hero-inner{
+    position:relative; z-index:2;
+    padding:0 5% 0;
+    max-width:1200px;
+  }
+  .stamp-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--brass-light);
+    border:1px solid rgba(217,167,72,0.5);
+    padding:6px 12px;
+    margin-bottom:28px;
+  }
+  .stamp-eyebrow::before{content:"●"; font-size:8px;}
+  h1.headline{
+    font-family:'Spectral', serif;
+    font-weight:600;
+    font-size:clamp(40px, 7vw, 92px);
+    line-height:1.02;
+    letter-spacing:-0.01em;
+    max-width:14ch;
+  }
+  h1.headline em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--brass-light);
+  }
+  .hero-sub{
+    margin-top:26px;
+    font-size:clamp(15px,1.6vw,19px);
+    line-height:1.6;
+    max-width:52ch;
+    color:var(--foam);
+    font-weight:400;
+  }
+  .hero-meta{
+    display:flex; gap:48px; margin-top:56px; flex-wrap:wrap;
+  }
+  .hero-meta div{font-family:'IBM Plex Mono', monospace;}
+  .hero-meta .num{font-size:28px; color:var(--brass-light); font-weight:600;}
+  .hero-meta .lbl{font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(237,231,217,0.6); margin-top:4px;}
+
+  /* Manifest ticker — signature element */
+  .ticker-wrap{
+    position:relative; z-index:2;
+    border-top:1px solid rgba(237,231,217,0.15);
+    margin-top:70px;
+    padding:16px 0;
+    overflow:hidden;
+    background:rgba(0,0,0,0.15);
+  }
+  .ticker{
+    display:flex; gap:60px; white-space:nowrap;
+    animation: ticker 38s linear infinite;
+    width:max-content;
+  }
+  .ticker span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+    color:rgba(237,231,217,0.55);
+  }
+  .ticker span b{color:var(--brass-light); font-weight:600;}
+  @keyframes ticker{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:120px 5%;}
+  .section-head{max-width:640px; margin-bottom:64px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--rust);
+    display:block; margin-bottom:16px;
+  }
+  h2.section-title{
+    font-family:'Spectral', serif;
+    font-weight:600;
+    font-size:clamp(30px, 4vw, 48px);
+    line-height:1.1;
+  }
+  .section-desc{margin-top:18px; font-size:16px; line-height:1.7; color:#4A4438; max-width:56ch;}
+
+  /* ---------- PRODUCTS ---------- */
+  .products{background:var(--paper);}
+  .manifest-grid{
+    border-top:1px solid rgba(27,36,32,0.18);
+  }
+  .manifest-row{
+    display:grid;
+    grid-template-columns: 90px 1fr 1.4fr 140px;
+    align-items:center;
+    padding:22px 0;
+    border-bottom:1px solid rgba(27,36,32,0.18);
+    gap:20px;
+    transition: background .25s;
+  }
+  .manifest-row:hover{background:rgba(185,130,43,0.06);}
+  .manifest-row .code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:var(--brass);
+    font-weight:600;
+  }
+  .manifest-row .name{
+    font-family:'Spectral', serif;
+    font-size:clamp(18px,2vw,24px);
+    font-weight:600;
+  }
+  .manifest-row .desc{
+    font-size:14px; color:#5C5646; line-height:1.5;
+  }
+  .manifest-row .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--rust);
+    text-align:right;
+  }
+  @media (max-width:820px){
+    .manifest-row{grid-template-columns: 50px 1fr; row-gap:6px;}
+    .manifest-row .desc{grid-column:2; }
+    .manifest-row .tag{grid-column:2; text-align:left;}
+  }
+
+  /* ---------- COMPANY / TIMELINE ---------- */
+  .company{
+    background:var(--ink-navy);
+    color:var(--paper);
+  }
+  .company .eyebrow{color:var(--brass-light);}
+  .company .section-desc{color:var(--foam);}
+  .timeline{
+    margin-top:70px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:rgba(237,231,217,0.15);
+  }
+  .timeline .cell{
+    background:var(--ink-navy);
+    padding:36px 30px;
+  }
+  .timeline .year{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--brass-light);
+    font-size:13px; letter-spacing:0.1em;
+    margin-bottom:14px;
+    display:block;
+  }
+  .timeline .cell h3{
+    font-family:'Spectral', serif; font-weight:600;
+    font-size:22px; margin-bottom:10px;
+  }
+  .timeline .cell p{font-size:14px; line-height:1.6; color:var(--foam);}
+  @media (max-width:820px){
+    .timeline{grid-template-columns:1fr;}
+  }
+
+  /* ---------- MARCHÉS (live) ---------- */
+  .markets{background:var(--crude); color:var(--paper);}
+  .markets .eyebrow{color:var(--brass-light);}
+  .markets .section-desc{color:var(--foam);}
+  .live-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--foam);
+    margin-top:14px;
+  }
+  .live-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:#6FCF97;
+    box-shadow:0 0 0 0 rgba(111,207,151,0.6);
+    animation: pulse 2s infinite;
+  }
+  .live-dot.stale{background:var(--rust); animation:none;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(111,207,151,0.5);}
+    70%{box-shadow:0 0 0 8px rgba(111,207,151,0);}
+    100%{box-shadow:0 0 0 0 rgba(111,207,151,0);}
+  }
+  .price-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:rgba(237,231,217,0.15);
+    margin-top:56px;
+    border:1px solid rgba(237,231,217,0.15);
+  }
+  @media (max-width:820px){ .price-grid{grid-template-columns:1fr;} }
+  .price-card{background:var(--crude); padding:34px 30px;}
+  .price-card .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--brass-light);
+  }
+  .price-card .value{
+    font-family:'Spectral', serif; font-weight:600;
+    font-size:clamp(30px,3.4vw,42px);
+    margin-top:14px;
+    min-height:1.2em;
+  }
+  .price-card .value .unit{font-size:14px; font-family:'IBM Plex Mono', monospace; color:var(--foam); font-weight:400; margin-left:6px;}
+  .price-card .updated{
+    margin-top:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; color:rgba(237,231,217,0.45);
+  }
+  .price-card .skeleton{
+    width:70%; height:34px; margin-top:14px;
+    background:linear-gradient(90deg, rgba(237,231,217,0.06), rgba(237,231,217,0.14), rgba(237,231,217,0.06));
+    background-size:200% 100%;
+    animation:shimmer 1.4s infinite;
+  }
+  @keyframes shimmer{
+    0%{background-position:200% 0;}
+    100%{background-position:-200% 0;}
+  }
+  .markets-note{
+    margin-top:28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; line-height:1.7;
+    color:rgba(237,231,217,0.45);
+    max-width:70ch;
+  }
+
+  /* ---------- ACTUALITÉS (live) ---------- */
+  .news{background:var(--paper);}
+  .news-list{margin-top:56px; border-top:1px solid rgba(27,36,32,0.18);}
+  .news-item{
+    display:grid;
+    grid-template-columns:130px 1fr;
+    gap:24px;
+    padding:26px 0;
+    border-bottom:1px solid rgba(27,36,32,0.18);
+  }
+  @media (max-width:720px){ .news-item{grid-template-columns:1fr;} }
+  .news-item .date{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--rust);
+  }
+  .news-item h3{
+    font-family:'Spectral', serif; font-weight:600;
+    font-size:19px; line-height:1.3;
+  }
+  .news-item a{transition:color .2s;}
+  .news-item a:hover{color:var(--brass);}
+  .news-item .src{
+    display:block; margin-top:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; color:#8a8474; text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .news-skeleton{
+    padding:26px 0; border-bottom:1px solid rgba(27,36,32,0.18);
+  }
+  .news-skeleton .bar{
+    height:16px; width:80%;
+    background:linear-gradient(90deg, rgba(27,36,32,0.06), rgba(27,36,32,0.12), rgba(27,36,32,0.06));
+    background-size:200% 100%;
+    animation:shimmer 1.4s infinite;
+  }
+  .news-fallback{
+    padding:26px 0; font-size:14px; color:#5C5646;
+  }
+
+  /* ---------- FILIALES ---------- */
+  .filiales{background:var(--paper-2);}
+  .filiale-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:rgba(27,36,32,0.18);
+    border:1px solid rgba(27,36,32,0.18);
+  }
+  @media (max-width:820px){ .filiale-grid{grid-template-columns:1fr;} }
+  .filiale-card{
+    background:var(--paper-2);
+    padding:32px 28px;
+    position:relative;
+  }
+  .filiale-card.placeholder{
+    background:repeating-linear-gradient(135deg, rgba(27,36,32,0.03) 0px, rgba(27,36,32,0.03) 8px, transparent 8px, transparent 16px), var(--paper-2);
+  }
+  .ph-label{
+    display:inline-block;
+    font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--rust);
+    margin-bottom:14px;
+  }
+  .filiale-card h3{
+    font-family:'Spectral', serif; font-style:italic; font-weight:500;
+    font-size:20px; color:#8a8474; margin-bottom:8px;
+  }
+  .filiale-card p{font-size:13px; color:#8a8474; letter-spacing:0.02em;}
+
+  /* ---------- ORGANIGRAMME ---------- */
+  .orgchart{background:var(--paper);}
+  .org-tree{margin-top:60px; display:flex; flex-direction:column; align-items:center;}
+  .org-node{
+    background:var(--ink-navy);
+    color:var(--paper);
+    border:1px solid rgba(217,167,72,0.35);
+    padding:28px 30px;
+    width:100%;
+    max-width:360px;
+    text-align:center;
+  }
+  .org-node.root{max-width:400px;}
+  .org-role{
+    display:block;
+    font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--brass-light);
+    margin-bottom:12px;
+  }
+  .org-node h3{
+    font-family:'Spectral', serif; font-weight:600;
+    font-size:22px; margin-bottom:8px;
+  }
+  .org-node p{font-size:13px; line-height:1.55; color:var(--foam);}
+  .org-connector{
+    width:1px; height:48px;
+    background:linear-gradient(180deg, var(--brass), rgba(185,130,43,0.2));
+  }
+  .org-row{
+    display:flex; gap:60px; flex-wrap:wrap; justify-content:center;
+    position:relative;
+    padding-top:0;
+  }
+  .org-row::before{
+    content:"";
+    position:absolute; top:-1px; left:50%; transform:translateX(-50%);
+    width:60%; height:1px;
+    background:rgba(185,130,43,0.35);
+  }
+  @media (max-width:720px){ .org-row::before{display:none;} }
+  .org-note{
+    margin-top:44px;
+    font-size:11px; letter-spacing:0.04em;
+    color:#8a8474;
+    text-align:center;
+    max-width:52ch;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact{
+    background:var(--crude);
+    color:var(--paper);
+    position:relative;
+  }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:60px;
+  }
+  @media (max-width:820px){ .contact-grid{grid-template-columns:1fr;} }
+  .contact h2.section-title{color:var(--paper);}
+  .contact-lines{margin-top:36px;}
+  .contact-line{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:18px 0;
+    border-bottom:1px solid rgba(237,231,217,0.15);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+  }
+  .contact-line .k{color:rgba(237,231,217,0.5); letter-spacing:0.1em; text-transform:uppercase; font-size:11px;}
+  .contact-line .v{color:var(--brass-light); font-size:15px;}
+  .contact-card{
+    border:1px solid rgba(217,167,72,0.35);
+    padding:36px;
+    align-self:start;
+  }
+  .contact-card .stamp-eyebrow{margin-bottom:20px;}
+  .contact-card p{font-size:14px; line-height:1.7; color:var(--foam);}
+  footer{
+    padding:30px 5%;
+    background:var(--crude);
+    border-top:1px solid rgba(237,231,217,0.1);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.06em;
+    color:rgba(237,231,217,0.4);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">ITOC <span>SA</span></div>
+  <div class="navlinks">
+    <a href="#produits">Produits</a>
+    <a href="#marches">Marchés</a>
+    <a href="#actualites">Actualités</a>
+    <a href="#historique">Historique</a>
+    <a href="#filiales">Filiales</a>
+    <a href="#organigramme">Organigramme</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="swell"></div>
+  <div class="horizon"></div>
+  <div class="hero-inner">
+    <div class="stamp-eyebrow">International Trading Oil &amp; Commodities Corp.</div>
+    <h1 class="headline">Le négoce du pétrole,<br><em>d'Afrique au Moyen-Orient.</em></h1>
+    <p class="hero-sub">Depuis 1987, ITOC SA négocie pétrole brut et produits pétroliers raffinés entre les bassins de production d'Afrique et du Moyen-Orient et les marchés qui en ont besoin — avec la rigueur d'une maison de trading établie à Dakar.</p>
+    <div class="hero-meta">
+      <div><div class="num">1987</div><div class="lbl">Fondation</div></div>
+      <div><div class="num">7+</div><div class="lbl">Familles de produits</div></div>
+      <div><div class="num">Dakar</div><div class="lbl">Siège, Sénégal</div></div>
+    </div>
+  </div>
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span><b>PÉTROLE BRUT</b> · Afrique &amp; Moyen-Orient</span>
+      <span><b>BUTANE</b> · Gaz de pétrole liquéfié</span>
+      <span><b>NAPHTA</b> · Charge pétrochimique</span>
+      <span><b>SUPERCARBURANT</b> · Essence automobile</span>
+      <span><b>GASOIL</b> · Carburant routier</span>
+      <span><b>JET A-1</b> · Carburéacteur aviation</span>
+      <span><b>KÉROSÈNE</b> · Pétrole lampant</span>
+      <span><b>FUEL OIL</b> · BTS &amp; HTS</span>
+      <span><b>CÉRÉALES</b> · Négoce agricole</span>
+      <span><b>PÉTROLE BRUT</b> · Afrique &amp; Moyen-Orient</span>
+      <span><b>BUTANE</b> · Gaz de pétrole liquéfié</span>
+      <span><b>NAPHTA</b> · Charge pétrochimique</span>
+      <span><b>SUPERCARBURANT</b> · Essence automobile</span>
+      <span><b>GASOIL</b> · Carburant routier</span>
+      <span><b>JET A-1</b> · Carburéacteur aviation</span>
+      <span><b>KÉROSÈNE</b> · Pétrole lampant</span>
+      <span><b>FUEL OIL</b> · BTS &amp; HTS</span>
+      <span><b>CÉRÉALES</b> · Négoce agricole</span>
+    </div>
+  </div>
+</header>
+
+<section class="products" id="produits">
+  <div class="section-head">
+    <span class="eyebrow">Manifeste — Produits négociés</span>
+    <h2 class="section-title">Une gamme complète de produits pétroliers et agricoles.</h2>
+    <p class="section-desc">ITOC SA couvre l'ensemble de la chaîne, du brut aux produits raffinés, jusqu'au négoce de céréales.</p>
+  </div>
+
+  <div class="manifest-grid">
+    <div class="manifest-row">
+      <span class="code">01</span>
+      <span class="name">Pétrole brut</span>
+      <span class="desc">Bruts produits en Afrique et au Moyen-Orient.</span>
+      <span class="tag">Crude</span>
+    </div>
+    <div class="manifest-row">
+      <span class="code">02</span>
+      <span class="name">Butane</span>
+      <span class="desc">Gaz de pétrole liquéfié pour usage domestique et industriel.</span>
+      <span class="tag">GPL</span>
+    </div>
+    <div class="manifest-row">
+      <span class="code">03</span>
+      <span class="name">Naphta</span>
+      <span class="desc">Charge pour l'industrie pétrochimique.</span>
+      <span class="tag">Feedstock</span>
+    </div>
+    <div class="manifest-row">
+      <span class="code">04</span>
+      <span class="name">Carburants automobiles</span>
+      <span class="desc">Supercarburant, essence ordinaire, gasoil.</span>
+      <span class="tag">Fuels</span>
+    </div>
+    <div class="manifest-row">
+      <span class="code">05</span>
+      <span class="name">Carburéacteur Jet A-1</span>
+      <span class="desc">Carburant d'aviation destiné aux compagnies aériennes.</span>
+      <span class="tag">Aviation</span>
+    </div>
+    <div class="manifest-row">
+      <span class="code">06</span>
+      <span class="name">Kérosène</span>
+      <span class="desc">Pétrole lampant.</span>
+      <span class="tag">Middle dist.</span>
+    </div>
+    <div class="manifest-row">
+      <span class="code">07</span>
+      <span class="name">Combustibles</span>
+      <span class="desc">Diesel oil, fuel oil BTS et fuel oil HTS.</span>
+      <span class="tag">Fuel oil</span>
+    </div>
+    <div class="manifest-row">
+      <span class="code">08</span>
+      <span class="name">Céréales</span>
+      <span class="desc">Négoce agricole complémentaire à l'activité pétrolière.</span>
+      <span class="tag">Grains</span>
+    </div>
+  </div>
+</section>
+
+<section class="markets" id="marches">
+  <div class="section-head">
+    <span class="eyebrow">Marchés</span>
+    <h2 class="section-title">Cours des matières premières.</h2>
+    <p class="section-desc">Cours de référence Brent et WTI, actualisés automatiquement à chaque clôture de marché.</p>
+    <div class="live-tag"><span class="live-dot" id="live-dot"></span><span id="live-status">Connexion aux marchés…</span></div>
+  </div>
+  <div class="price-grid" id="price-grid">
+    <div class="price-card">
+      <span class="label">Brent Crude</span>
+      <div class="value" id="price-brent"><div class="skeleton"></div></div>
+      <div class="updated" id="updated-brent">—</div>
+    </div>
+    <div class="price-card">
+      <span class="label">WTI Crude</span>
+      <div class="value" id="price-wti"><div class="skeleton"></div></div>
+      <div class="updated" id="updated-wti">—</div>
+    </div>
+    <div class="price-card">
+      <span class="label">Gaz naturel (Henry Hub)</span>
+      <div class="value" id="price-gas"><div class="skeleton"></div></div>
+      <div class="updated" id="updated-gas">—</div>
+    </div>
+  </div>
+  <p class="markets-note">Données fournies par Alpha Vantage — cours de clôture officiels, actualisés une fois par jour ouvré. Il ne s'agit pas d'un flux intrajournalier tick-par-tick ; un abonnement à un flux de marché (ICE, CME, Refinitiv) est nécessaire pour du temps réel strict.</p>
+</section>
+
+<section class="news" id="actualites">
+  <div class="section-head">
+    <span class="eyebrow">Actualités</span>
+    <h2 class="section-title">L'actualité du secteur pétrolier.</h2>
+    <p class="section-desc">Dernières dépêches du secteur, mises à jour à chaque chargement de la page.</p>
+  </div>
+  <div class="news-list" id="news-list">
+    <div class="news-skeleton"><div class="bar"></div></div>
+    <div class="news-skeleton"><div class="bar"></div></div>
+    <div class="news-skeleton"><div class="bar"></div></div>
+  </div>
+</section>
+
+<section class="company" id="historique">
+  <div class="section-head">
+    <span class="eyebrow">Historique</span>
+    <h2 class="section-title">Près de quatre décennies de négoce pétrolier.</h2>
+    <p class="section-desc">International Trading Oil and Commodities Corporation (ITOC SA) est fondée à Dakar en 1987. L'entreprise s'impose au fil des décennies comme l'un des principaux acteurs de l'importation et de la distribution de produits pétroliers au Sénégal.</p>
+  </div>
+  <div class="timeline">
+    <div class="cell">
+      <span class="year">1987</span>
+      <h3>Fondation</h3>
+      <p>Création d'ITOC SA par Abdoulaye « Baba » Diao, ingénieur formé à l'École Centrale de Lille et à l'Institut Français du Pétrole (ENSPM).</p>
+    </div>
+    <div class="cell">
+      <span class="year">1987 – 2024</span>
+      <h3>Un acteur majeur du secteur</h3>
+      <p>Sous la direction de son fondateur, ITOC devient l'un des principaux fournisseurs de gaz et d'hydrocarbures du Sénégal, avec une gamme élargie du brut aux produits raffinés et aux céréales.</p>
+    </div>
+    <div class="cell">
+      <span class="year">Juillet 2024</span>
+      <h3>Disparition du fondateur</h3>
+      <p>Abdoulaye Diao s'éteint le 3 juillet 2024 à Dakar, à l'âge de 79 ans, après trente-sept ans à la tête de l'entreprise.</p>
+    </div>
+    <div class="cell">
+      <span class="year">Depuis 2024</span>
+      <h3>Nouvelle gouvernance</h3>
+      <p>La fratrie Diao s'accorde sur une gouvernance renouvelée, confiée à Rougui Diao à la présidence et Sakhir Diouf à la direction générale.</p>
+    </div>
+    <div class="cell">
+      <span class="year">Aujourd'hui</span>
+      <h3>Relance de l'activité</h3>
+      <p>ITOC SA poursuit sa réorganisation pour redéployer pleinement son activité de négoce.</p>
+    </div>
+    <div class="cell">
+      <span class="year">Sources</span>
+      <h3>Presse économique</h3>
+      <p>Éléments publics rapportés par Jeune Afrique, DakarActu et Sud Quotidien (2024).</p>
+    </div>
+  </div>
+</section>
+
+<section class="filiales" id="filiales">
+  <div class="section-head">
+    <span class="eyebrow">Filiales</span>
+    <h2 class="section-title">Rubrique à compléter avec vos informations.</h2>
+    <p class="section-desc">Nous n'avons pas trouvé de liste publique et vérifiée des filiales d'ITOC SA. Pour ne rien avancer d'inexact, cette rubrique est présentée en gabarit — communiquez-nous les noms, activités et pays de vos filiales pour qu'elle soit complétée avec vos données réelles.</p>
+  </div>
+  <div class="filiale-grid">
+    <div class="filiale-card placeholder">
+      <span class="mono ph-label">Filiale 01</span>
+      <h3>Nom de la filiale</h3>
+      <p>Activité — pays</p>
+    </div>
+    <div class="filiale-card placeholder">
+      <span class="mono ph-label">Filiale 02</span>
+      <h3>Nom de la filiale</h3>
+      <p>Activité — pays</p>
+    </div>
+    <div class="filiale-card placeholder">
+      <span class="mono ph-label">Filiale 03</span>
+      <h3>Nom de la filiale</h3>
+      <p>Activité — pays</p>
+    </div>
+  </div>
+</section>
+
+<section class="orgchart" id="organigramme">
+  <div class="section-head">
+    <span class="eyebrow">Organigramme</span>
+    <h2 class="section-title">Une gouvernance renouvelée depuis 2024.</h2>
+    <p class="section-desc">Après la disparition du fondateur en juillet 2024, la fratrie Diao s'est accordée sur une nouvelle organisation de la direction, rapportée par la presse économique sénégalaise.</p>
+  </div>
+  <div class="org-tree">
+    <div class="org-node root">
+      <span class="org-role mono">Conseil d'administration</span>
+      <h3>Rougui Diao</h3>
+      <p>Présidente du Conseil d'administration</p>
+    </div>
+    <div class="org-connector"></div>
+    <div class="org-row">
+      <div class="org-node">
+        <span class="org-role mono">Direction générale</span>
+        <h3>Sakhir Diouf</h3>
+        <p>Directeur général — près de trente ans au sein de l'entreprise, ancien bras droit du fondateur.</p>
+      </div>
+      <div class="org-node">
+        <span class="org-role mono">Stratégie</span>
+        <h3>Moussa Diao</h3>
+        <p>Fils aîné du fondateur, apporte la stratégie du groupe depuis Genève.</p>
+      </div>
+    </div>
+    <div class="org-note mono">Gouvernance issue de l'accord conclu entre les cinq héritiers d'Abdoulaye « Baba » Diao — source : presse économique, 2024.</div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div>
+      <span class="eyebrow" style="color:var(--brass-light)">Contact</span>
+      <h2 class="section-title">Nous contacter</h2>
+      <div class="contact-lines">
+        <div class="contact-line"><span class="k">E-mail</span><span class="v">itoc@orange.sn</span></div>
+        <div class="contact-line"><span class="k">Téléphone</span><span class="v">+221 33 821 02 99</span></div>
+        <div class="contact-line"><span class="k">Siège</span><span class="v">Dakar, Sénégal</span></div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="stamp-eyebrow">Négoce international</div>
+      <p>ITOC SA, International Trading Oil and Commodities Corporation, société de négoce de pétroles bruts produits en Afrique et au Moyen-Orient, de produits pétroliers et de céréales.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 ITOC SA — International Trading Oil and Commodities Corporation</span>
+  <span>Dakar, Sénégal</span>
+</footer>
+
+<script>
+/* ============================================================
+   ITOC SA — Données live (marchés + actualités)
+   ------------------------------------------------------------
+   1) COURS DES MATIÈRES PREMIÈRES — Alpha Vantage (gratuit)
+      → Créer une clé gratuite ici : https://www.alphavantage.co/support/#api-key
+      → La coller ci-dessous à la place de "VOTRE_CLE_ALPHAVANTAGE"
+      → Limite du plan gratuit : 25 requêtes/jour, largement suffisant
+        car on ne charge les cours qu'une fois par visite de page.
+
+   2) ACTUALITÉS — flux RSS OilPrice.com converti en JSON via rss2json.com
+      → Fonctionne sans clé pour un usage modéré (rate-limit partagé).
+      → Pour un usage plus soutenu, créez une clé gratuite ici :
+        https://rss2json.com/ et collez-la dans RSS2JSON_KEY.
+   ============================================================ */
+
+const ALPHAVANTAGE_KEY = "ZI6IZUAY159VH0YL";
+const RSS2JSON_KEY = ""; // optionnel
+const OIL_RSS_FEED = "https://oilprice.com/rss/main";
+
+function formatUpdatedTime(dateStr){
+  try{
+    const d = new Date(dateStr);
+    if (isNaN(d)) return "—";
+    return d.toLocaleDateString('fr-FR', {day:'2-digit', month:'short', year:'numeric'});
+  }catch(e){ return "—"; }
+}
+
+async function fetchCommodity(functionName, targetValueId, targetUpdatedId){
+  const valueEl = document.getElementById(targetValueId);
+  const updatedEl = document.getElementById(targetUpdatedId);
+  try{
+    if(!ALPHAVANTAGE_KEY || ALPHAVANTAGE_KEY === "VOTRE_CLE_ALPHAVANTAGE"){
+      throw new Error("no-key");
+    }
+    const url = `https://www.alphavantage.co/query?function=${functionName}&interval=daily&apikey=${ALPHAVANTAGE_KEY}`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error("http-error");
+    const data = await res.json();
+    const series = data.data;
+    if(!series || !series.length) throw new Error("no-data");
+    const latest = series[0];
+    const priceNum = parseFloat(latest.value);
+    if(isNaN(priceNum)) throw new Error("bad-value");
+    valueEl.innerHTML = `$${priceNum.toFixed(2)}<span class="unit">/baril</span>`;
+    updatedEl.textContent = `Clôture du ${formatUpdatedTime(latest.date)}`;
+    return true;
+  }catch(err){
+    valueEl.innerHTML = `<span style="font-size:15px; color:rgba(237,231,217,0.5); font-family:'IBM Plex Mono',monospace;">Indisponible</span>`;
+    updatedEl.textContent = ALPHAVANTAGE_KEY === "VOTRE_CLE_ALPHAVANTAGE" ? "Clé API non configurée" : "Réessai en cours…";
+    return false;
+  }
+}
+
+async function loadMarkets(){
+  const dot = document.getElementById('live-dot');
+  const status = document.getElementById('live-status');
+  const results = await Promise.all([
+    fetchCommodity('WTI', 'price-wti', 'updated-wti'),
+    fetchCommodity('BRENT', 'price-brent', 'updated-brent'),
+    fetchCommodity('NATURAL_GAS', 'price-gas', 'updated-gas')
+  ]);
+  const anySuccess = results.some(Boolean);
+  if(anySuccess){
+    dot.classList.remove('stale');
+    status.textContent = 'Marchés connectés';
+  }else{
+    dot.classList.add('stale');
+    status.textContent = 'Cours indisponibles — voir note ci-dessous';
+  }
+}
+
+async function loadNews(){
+  const list = document.getElementById('news-list');
+  try{
+    const keyParam = RSS2JSON_KEY ? `&api_key=${RSS2JSON_KEY}` : '';
+    const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(OIL_RSS_FEED)}${keyParam}&count=6`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error("http-error");
+    const data = await res.json();
+    if(data.status !== 'ok' || !data.items || !data.items.length) throw new Error("no-items");
+
+    list.innerHTML = '';
+    data.items.slice(0,6).forEach(item=>{
+      const date = new Date(item.pubDate);
+      const dateStr = isNaN(date) ? '' : date.toLocaleDateString('fr-FR', {day:'2-digit', month:'short'});
+      const div = document.createElement('div');
+      div.className = 'news-item';
+      div.innerHTML = `
+        <span class="date">${dateStr}</span>
+        <div>
+          <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></h3>
+          <span class="src">${data.feed?.title || 'OilPrice.com'}</span>
+        </div>`;
+      list.appendChild(div);
+    });
+  }catch(err){
+    list.innerHTML = `<div class="news-fallback">Actualités momentanément indisponibles. Consultez directement <a href="https://oilprice.com" target="_blank" rel="noopener noreferrer" style="color:var(--rust); text-decoration:underline;">oilprice.com</a>.</div>`;
+  }
+}
+
+loadMarkets();
+loadNews();
+// Rafraîchissement automatique toutes les 15 minutes pour les visiteurs qui restent sur la page
+setInterval(loadMarkets, 15 * 60 * 1000);
+setInterval(loadNews, 15 * 60 * 1000);
+</script>
+</body>
+</html>
