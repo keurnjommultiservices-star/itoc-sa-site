@@ -46,7 +46,8 @@ collections:
             name: "hero"
             widget: "object"
             fields:
-              - {label: "Bandeau (eyebrow)", name: "eyebrow", widget: "string"}
+              - {label: "Bandeau — ligne 1 (grand, gras)", name: "eyebrow_main", widget: "string"}
+              - {label: "Bandeau — ligne 2", name: "eyebrow_sub", widget: "string"}
               - {label: "Titre — 1ère ligne", name: "headline_pre", widget: "string"}
               - {label: "Titre — 2e ligne (italique)", name: "headline_em", widget: "string"}
               - {label: "Sous-titre", name: "subtitle", widget: "text"}
