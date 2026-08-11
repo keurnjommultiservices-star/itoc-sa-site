@@ -51,6 +51,18 @@
     letter-spacing:0.12em;
   }
   .brand span{color:var(--brass-light);}
+  .nav-left{
+    display:flex; align-items:center; gap:16px;
+  }
+  .nav-clock{
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:rgba(237,231,217,0.7);
+    padding:5px 12px;
+    border:1px solid rgba(217,167,72,0.35);
+    white-space:nowrap;
+  }
+  @media (max-width:720px){ .nav-clock{display:none;} }
   .navlinks{display:flex; gap:36px; font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase;}
   .navlinks a{opacity:0.85; transition:opacity .2s;}
   .navlinks a:hover{opacity:1;}
@@ -584,7 +596,10 @@
 <body>
 
 <nav>
-  <div class="brand">ITOC <span>SA</span></div>
+  <div class="nav-left">
+    <div class="brand">ITOC <span>SA</span></div>
+    <div class="nav-clock mono" id="nav-clock">— GMT</div>
+  </div>
   <div class="navlinks">
     <a href="#produits">Produits</a>
     <a href="#marches">Marchés</a>
@@ -971,6 +986,26 @@ async function loadContent(){
   }
 }
 loadContent();
+</script>
+
+<script>
+/* ============================================================
+   ITOC SA — Horloge GMT en direct (barre de navigation)
+   ============================================================ */
+function updateNavClock(){
+  const el = document.getElementById('nav-clock');
+  if(!el) return;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('fr-FR', {
+    day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC'
+  });
+  const timeStr = now.toLocaleTimeString('fr-FR', {
+    hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'UTC', hour12: false
+  });
+  el.textContent = `${dateStr} · ${timeStr} GMT`;
+}
+updateNavClock();
+setInterval(updateNavClock, 1000);
 </script>
 
 <script>
