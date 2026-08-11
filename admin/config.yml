@@ -88,6 +88,22 @@ collections:
                   - {label: "Titre", name: "title", widget: "string"}
                   - {label: "Texte", name: "text", widget: "text"}
 
+          - label: "Portrait du fondateur"
+            name: "portrait"
+            widget: "object"
+            fields:
+              - {label: "Bandeau", name: "eyebrow", widget: "string"}
+              - {label: "Titre", name: "title", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+              - {label: "Légende sous la photo", name: "caption", widget: "string"}
+              - {label: "Nom complet", name: "name", widget: "string"}
+              - {label: "Fonction", name: "role", widget: "string"}
+              - {label: "Paragraphe 1", name: "p1", widget: "text"}
+              - {label: "Paragraphe 2", name: "p2", widget: "text"}
+              - {label: "Paragraphe 3", name: "p3", widget: "text"}
+              - {label: "Paragraphe 4", name: "p4", widget: "text"}
+              - {label: "Paragraphe 5", name: "p5", widget: "text"}
+
           - label: "Filiales"
             name: "filiales"
             widget: "object"
